@@ -59,6 +59,15 @@
     owner: "{{ ansible_user }}"
     mode: "u=rw,g=,o="
 
+- name: Copy traefik custom config to master node
+  become: true
+  copy:
+    src: ./../../../../../../../server/k8s/traefik-config.yaml
+    dest: "{{ k3s_server_location }}/server/manifests/traefik-config.yaml"
+    owner: root
+    group: root
+    mode: u=rw,g=,o=
+
 - name: Replace https://localhost:6443 by https://master-ip:6443
   command: >-
     k3s kubectl config set-cluster default
